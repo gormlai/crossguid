@@ -197,47 +197,6 @@ unsigned char hexPairToChar(char a, char b)
 	return hexDigitToChar(a) * 16 + hexDigitToChar(b);
 }
 
-// create a guid from string
-Guid::Guid(std::string_view fromString)
-{
-	char charOne = '\0';
-	char charTwo = '\0';
-	bool lookingForFirstChar = true;
-	unsigned nextByte = 0;
-
-	for (const char &ch : fromString)
-	{
-		if (ch == '-')
-			continue;
-
-		if (nextByte >= 16 || !isValidHexChar(ch))
-		{
-			// Invalid string so bail
-			zeroify();
-			return;
-		}
-
-		if (lookingForFirstChar)
-		{
-			charOne = ch;
-			lookingForFirstChar = false;
-		}
-		else
-		{
-			charTwo = ch;
-			auto byte = hexPairToChar(charOne, charTwo);
-			_bytes[nextByte++] = byte;
-			lookingForFirstChar = true;
-		}
-	}
-
-	// if there were fewer than 16 bytes in the string then guid is bad
-	if (nextByte < 16)
-	{
-		zeroify();
-		return;
-	}
-}
 
 // create empty guid
 Guid::Guid() : _bytes{ {0} }
