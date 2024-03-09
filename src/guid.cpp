@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include "crossguid/guid.hpp"
 
 #ifdef GUID_LIBUUID
-#include <uuid/uuid.h>
 #endif
 
 #ifdef GUID_CFUUID
@@ -232,8 +231,12 @@ void Guid::swap(Guid &other)
 Guid newGuid()
 {
 	std::array<unsigned char, 16> data;
-	static_assert(std::is_same<unsigned char[16], uuid_t>::value, "Wrong type!");
-	uuid_generate(data.data());
+//	static_assert(std::is_same<unsigned char[16], uuid_t>::value, "Wrong type!");
+//	uuid_generate(data.data());
+
+	for(unsigned int i=0 ; i < 16 ; i++ ) {
+		data[i] = static_cast<unsigned char>((rand() & 0x000000FF));
+	}
 	return Guid{std::move(data)};
 }
 #endif
