@@ -35,6 +35,8 @@ THE SOFTWARE.
 #include <sstream>
 #include <utility>
 #include <iomanip>
+#include <stdint.h>
+
 
 #define BEGIN_XG_NAMESPACE namespace xg {
 #define END_XG_NAMESPACE }
